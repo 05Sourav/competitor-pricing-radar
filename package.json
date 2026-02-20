@@ -1,0 +1,30 @@
+{
+  "name": "competitor-pricing-radar",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "worker": "node worker/index.js"
+  },
+  "dependencies": {
+    "@google/generative-ai": "^0.24.1",
+    "@supabase/supabase-js": "^2.44.4",
+    "axios": "^1.7.2",
+    "cheerio": "^1.0.0",
+    "diff": "^5.2.0",
+    "next": "14.2.5",
+    "node-cron": "^3.0.3",
+    "openai": "^4.52.7",
+    "react": "^18",
+    "react-dom": "^18",
+    "resend": "^3.4.0"
+  },
+  "devDependencies": {
+    "@types/node": "^20",
+    "@types/react": "^18",
+    "@types/react-dom": "^18",
+    "typescript": "^5"
+  }
+}

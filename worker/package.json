@@ -1,0 +1,20 @@
+{
+  "name": "competitor-pricing-radar-worker",
+  "version": "0.1.0",
+  "private": true,
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+    "dev": "RUN_ON_START=true node index.js"
+  },
+  "dependencies": {
+    "@google/generative-ai": "^0.24.1",
+    "@supabase/supabase-js": "^2.44.4",
+    "axios": "^1.7.2",
+    "cheerio": "^1.0.0",
+    "diff": "^5.2.0",
+    "dotenv": "^16.4.5",
+    "node-cron": "^3.0.3",
+    "resend": "^3.4.0"
+  }
+}
