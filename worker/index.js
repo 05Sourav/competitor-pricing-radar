@@ -56,6 +56,18 @@ async function runMonitoring() {
 }
 
 async function processMonitor(monitor) {
+  // Feature 3 — 24-hour cooldown: skip monitor if checked within the last 24h
+  if (monitor.last_checked_at) {
+    const elapsed = Date.now() - new Date(monitor.last_checked_at).getTime();
+    const TWENTY_FOUR_HOURS_MS = 24 * 60 * 60 * 1000;
+    if (elapsed < TWENTY_FOUR_HOURS_MS) {
+      console.log(
+        `[worker] Skipping ${monitor.competitor_name} — checked ${Math.round(elapsed / 3600000)}h ago (< 24h cooldown)`,
+      );
+      return;
+    }
+  }
+
   console.log(`[worker] Checking: ${monitor.competitor_name} (${monitor.url})`);
 
   // 2. Scrape current page
@@ -89,6 +101,12 @@ async function processMonitor(monitor) {
     );
     return;
   }
+
+  // Feature 3 — Stamp last_checked_at after a successful scrape+save
+  await supabase
+    .from("monitors")
+    .update({ last_checked_at: new Date().toISOString() })
+    .eq("id", monitor.id);
 
   // 5. If no previous snapshot, this is the baseline - nothing to compare
   if (!prevSnapshot) {
