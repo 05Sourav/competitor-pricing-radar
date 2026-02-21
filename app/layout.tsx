@@ -1,14 +1,23 @@
 import type { Metadata } from 'next';
 
 export const metadata: Metadata = {
-  title: 'Competitor Pricing Radar',
-  description: 'Get instant alerts when competitors change their pricing',
+  title: 'Pricing Radar — Never Miss a Competitor Pricing Change',
+  description: 'AI-powered daily monitoring that tracks competitor pricing updates, discounts, and plan changes. Get email alerts only when it matters.',
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en">
-      <body style={{ margin: 0, background: '#f9fafb', minHeight: '100vh' }}>{children}</body>
+      <head>
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
+        <link
+          href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
+          rel="stylesheet"
+        />
+        <link rel="icon" href="/tablogo4.png" type="image/png" />
+      </head>
+      <body style={{ margin: 0, background: '#fff', minHeight: '100vh' }}>{children}</body>
     </html>
   );
 }
