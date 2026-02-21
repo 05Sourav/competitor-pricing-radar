@@ -1,9 +1,11 @@
 // worker/index.js
 // Main background worker - runs daily via cron
 // Responsibilities: fetch pages, compare snapshots, detect changes, send email alerts
+// Health check server keeps Render free tier alive (ping via UptimeRobot every 5 min)
 
 require("dotenv").config({ path: "../.env.local" });
 
+const http = require("http");
 const cron = require("node-cron");
 const { createClient } = require("@supabase/supabase-js");
 const { Resend } = require("resend");
@@ -211,6 +213,27 @@ function sleep(ms) {
 // Runs daily at 2:00 AM UTC
 cron.schedule("0 2 * * *", () => {
   runMonitoring().catch(console.error);
+});
+
+// ---- Health Check Server ----
+// Keeps Render free tier alive when pinged by UptimeRobot every 5 minutes.
+// Render requires a bound port to classify this as a Web Service.
+const PORT = process.env.PORT || 3001;
+
+const healthServer = http.createServer((req, res) => {
+  if (req.method === "GET" && req.url === "/health") {
+    res.writeHead(200, { "Content-Type": "application/json" });
+    res.end(
+      JSON.stringify({ status: "ok", timestamp: new Date().toISOString() }),
+    );
+  } else {
+    res.writeHead(404);
+    res.end();
+  }
+});
+
+healthServer.listen(PORT, () => {
+  console.log(`[worker] Health check server listening on port ${PORT}`);
 });
 
 console.log("[worker] Competitor Pricing Radar worker started");

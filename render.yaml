@@ -1,14 +1,15 @@
 # render.yaml
-# Deploy the background worker on Render (free tier)
-# The worker runs 24/7 as a background service
+# Deploy the worker as a Web Service so Render binds a port and keeps it alive.
+# UptimeRobot pings GET /health every 5 minutes to prevent free-tier spin-down.
 
 services:
-  - type: worker
+  - type: web
     name: pricing-radar-worker
     runtime: node
     rootDir: worker
     buildCommand: npm install
     startCommand: npm start
+    healthCheckPath: /health
     envVars:
       - key: NEXT_PUBLIC_SUPABASE_URL
         sync: false
