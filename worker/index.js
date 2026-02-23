@@ -221,14 +221,26 @@ cron.schedule("0 2 * * *", () => {
 const PORT = process.env.PORT || 3001;
 
 const healthServer = http.createServer((req, res) => {
-  if (req.method === "GET" && req.url === "/health") {
+  const method = req.method;
+  const url = req.url;
+
+  if ((method === "GET" || method === "HEAD") && url === "/health") {
     res.writeHead(200, { "Content-Type": "application/json" });
-    res.end(
-      JSON.stringify({ status: "ok", timestamp: new Date().toISOString() }),
-    );
-  } else if (req.method === "GET" && req.url === "/") {
+    // HEAD requests must not include a body
+    if (method === "GET") {
+      res.end(
+        JSON.stringify({ status: "ok", timestamp: new Date().toISOString() }),
+      );
+    } else {
+      res.end();
+    }
+  } else if ((method === "GET" || method === "HEAD") && url === "/") {
     res.writeHead(200, { "Content-Type": "text/plain" });
-    res.end("Competitor Pricing Radar worker is running.");
+    if (method === "GET") {
+      res.end("Competitor Pricing Radar worker is running.");
+    } else {
+      res.end();
+    }
   } else {
     res.writeHead(404);
     res.end();
