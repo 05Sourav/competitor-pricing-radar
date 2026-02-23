@@ -226,6 +226,9 @@ const healthServer = http.createServer((req, res) => {
     res.end(
       JSON.stringify({ status: "ok", timestamp: new Date().toISOString() }),
     );
+  } else if (req.method === "GET" && req.url === "/") {
+    res.writeHead(200, { "Content-Type": "text/plain" });
+    res.end("Competitor Pricing Radar worker is running.");
   } else {
     res.writeHead(404);
     res.end();
