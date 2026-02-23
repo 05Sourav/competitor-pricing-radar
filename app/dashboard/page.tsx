@@ -1,7 +1,7 @@
 // app/dashboard/page.tsx
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 
 interface Alert {
   id: string;
@@ -26,18 +26,14 @@ export default function Dashboard() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
 
-  async function fetchMonitors(e: React.FormEvent) {
-    e.preventDefault();
-    if (!email) return;
-
+  const fetchMonitorsByEmail = useCallback(async (emailToFetch: string) => {
+    if (!emailToFetch) return;
     setLoading(true);
     setError('');
-    setSearchEmail(email);
-
+    setSearchEmail(emailToFetch);
     try {
-      const res = await fetch(`/api/monitors?email=${encodeURIComponent(email)}`);
+      const res = await fetch(`/api/monitors?email=${encodeURIComponent(emailToFetch)}`);
       const data = await res.json();
-
       if (!res.ok) {
         setError(data.error || 'Failed to fetch monitors');
       } else {
@@ -48,6 +44,21 @@ export default function Dashboard() {
     } finally {
       setLoading(false);
     }
+  }, []);
+
+  // Auto-fill + auto-fetch when ?email= is present in the URL (e.g. from confirmation email link)
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
+    const urlEmail = params.get('email');
+    if (urlEmail) {
+      setEmail(urlEmail);
+      fetchMonitorsByEmail(urlEmail);
+    }
+  }, [fetchMonitorsByEmail]);
+
+  async function fetchMonitors(e: React.FormEvent) {
+    e.preventDefault();
+    fetchMonitorsByEmail(email);
   }
 
   async function deleteMonitor(id: string) {
