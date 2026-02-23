@@ -7,6 +7,7 @@ import { Resend } from 'resend';
 import { getAdminClient } from '@/lib/supabase';
 import { checkEmailMonitorLimit, checkGlobalMonitorCapacity } from '@/lib/safety/monitorLimits';
 import { successResponse, errorResponse, handleApiError } from '@/lib/safety/apiResponse';
+import { scrapePage } from '@/lib/scraper';
 
 const resend = new Resend(process.env.RESEND_API_KEY);
 
@@ -58,7 +59,7 @@ export async function POST(req: NextRequest) {
     }
 
     // ── Insert new monitor ────────────────────────────────────────────────────
-    const { data, error } = await supabase
+    const { data: monitor, error } = await supabase
       .from('monitors')
       .insert({
         user_email: email,
@@ -72,6 +73,29 @@ export async function POST(req: NextRequest) {
     if (error) {
       console.error('[submit] DB insert error:', error);
       return errorResponse('Failed to save monitor', 500);
+    }
+
+    // ── INITIAL BASELINE SCRAPE ──────────────────────────────────────────────
+    // We scrape immediately so the user doesn't see an empty dashboard.
+    try {
+      const content = await scrapePage(url);
+      if (content) {
+        await supabase.from('snapshots').insert({
+          monitor_id: monitor.id,
+          content: content,
+        });
+
+        // Also update last_checked_at
+        await supabase
+          .from('monitors')
+          .update({ last_checked_at: new Date().toISOString() })
+          .eq('id', monitor.id);
+
+        console.log(`[submit] Created initial baseline snapshot for ${competitorName}`);
+      }
+    } catch (scrapeErr) {
+      console.error('[submit] Initial scrape failed:', scrapeErr);
+      // Non-fatal: monitor is still created, worker will try again later.
     }
 
     // ── Confirmation email (fire-and-forget) ─────────────────────────────────
@@ -130,7 +154,7 @@ export async function POST(req: NextRequest) {
     }
 
     // ── Feature 4: Structured success response ────────────────────────────────
-    return successResponse({ monitor: data }, 201);
+    return successResponse({ monitor }, 201);
 
   } catch (err) {
     // ── Feature 4: Safe catch-all — never expose internals ────────────────────
