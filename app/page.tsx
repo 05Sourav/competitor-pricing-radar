@@ -52,18 +52,17 @@ export default function Home() {
   }
 
   return (
-    <div style={{ fontFamily: "'Inter', system-ui, sans-serif", color: '#111', background: '#fff', minHeight: '100vh' }}>
+    <div className="mesh-bg" style={{ fontFamily: "'Inter', system-ui, sans-serif", color: '#111', minHeight: '100vh', transition: 'background 0.5s ease' }}>
 
       {/* ── NAVBAR — with scroll-triggered blur/shadow ── */}
       <motion.nav
         animate={{
-          backgroundColor: scrolled ? 'rgba(255,255,255,0.85)' : 'rgba(255,255,255,0.95)',
           boxShadow: scrolled ? '0 1px 12px rgba(0,0,0,0.08)' : '0 0px 0px rgba(0,0,0,0)',
         }}
         transition={{ duration: 0.25, ease: 'easeOut' }}
+        className="nav-container glass-nav"
         style={{
           position: 'sticky', top: 0, zIndex: 100,
-          backdropFilter: 'blur(10px)',
           borderBottom: '1px solid #f0f0f0',
           padding: '0 40px', height: 60,
           display: 'flex', alignItems: 'center', justifyContent: 'space-between',
@@ -72,7 +71,7 @@ export default function Home() {
         <div style={{ display: 'flex', alignItems: 'center', gap: 8, fontWeight: 700, fontSize: 16 }}>
           <img src="/logo.svg?v=2" alt="Pricing Radar" style={{ height: 150, width: 150 }} />
         </div>
-        <div style={{ display: 'flex', gap: 32, fontSize: 14, color: '#555' }}>
+        <div className="nav-links" style={{ display: 'flex', gap: 32, fontSize: 14, color: '#555' }}>
           <a href="#how-it-works" style={navLinkStyle}>How It Works</a>
           <a href="#preview"      style={navLinkStyle}>Sample Alert</a>
           <a href="#features"     style={navLinkStyle}>Benefits</a>
@@ -95,7 +94,7 @@ export default function Home() {
       </motion.nav>
 
       {/* ── HERO — staggered entrance ── */}
-      <section style={{
+      <section className="hero-section" style={{
         maxWidth: 760, margin: '0 auto', textAlign: 'center',
         padding: '62px 24px 80px',
       }}>
@@ -158,8 +157,8 @@ export default function Home() {
       </section>
 
       {/* ── HOW IT WORKS ── */}
-      <section id="how-it-works" style={{ background: '#fafafa', padding: '80px 24px' }}>
-        <div style={{ maxWidth: 860, margin: '0 auto', textAlign: 'center' }}>
+      <section id="how-it-works" style={{ padding: '80px 24px' }}>
+        <div style={{ maxWidth: 1100, margin: '0 auto', textAlign: 'center' }}>
           <RevealOnScroll>
             <h2 style={{ fontSize: 32, fontWeight: 700, margin: '0 0 8px' }}>Set up in minutes</h2>
             <p style={{ color: '#666', fontSize: 16, margin: '0 0 48px' }}>
@@ -167,7 +166,7 @@ export default function Home() {
             </p>
           </RevealOnScroll>
 
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 24 }}>
+          <div className="responsive-grid-3">
             {[
               {
                 icon: '🔗',
@@ -185,7 +184,7 @@ export default function Home() {
                 desc: 'Receive a direct summary the moment prices shift. Only when it matters.',
               },
             ].map((step, i) => (
-              <RevealOnScroll key={step.title} delay={i * 0.1}>
+              <RevealOnScroll key={step.title} delay={i * 0.1} style={{ height: '100%' }}>
                 <motion.div
                   whileHover={{ y: -4, boxShadow: '0 8px 24px rgba(0,0,0,0.09)' }}
                   transition={{ duration: 0.2, ease: 'easeOut' }}
@@ -194,6 +193,8 @@ export default function Home() {
                     borderRadius: 16, padding: '32px 24px', textAlign: 'center',
                     boxShadow: '0 2px 8px rgba(0,0,0,0.04)',
                     cursor: 'default',
+                    height: '100%',
+                    boxSizing: 'border-box',
                   }}
                 >
                   <div style={{
@@ -213,7 +214,7 @@ export default function Home() {
       </section>
 
       {/* ── SAMPLE ALERT PREVIEW — with floating effect ── */}
-      <section id="preview" style={{ padding: '80px 24px', textAlign: 'center' }}>
+      <section id="preview" className="section-padding" style={{ padding: '80px 24px', textAlign: 'center' }}>
         <div style={{ maxWidth: 680, margin: '0 auto' }}>
           <RevealOnScroll>
             <h2 style={{ fontSize: 32, fontWeight: 700, margin: '0 0 8px' }}>Sample Alert Preview</h2>
@@ -261,7 +262,7 @@ export default function Home() {
                     </p>
                   </div>
 
-                  <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 12, marginBottom: 20 }}>
+                  <div className="alert-grid" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 12, marginBottom: 20 }}>
                     <div style={{ border: '1px solid #e5e7eb', borderRadius: 10, padding: '16px 20px' }}>
                       <div style={{ fontSize: 11, color: '#999', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.05em', marginBottom: 8 }}>BEFORE</div>
                       <div style={{ fontSize: 28, fontWeight: 700, color: '#111' }}>$16.66<span style={{ fontSize: 14, fontWeight: 400, color: '#666' }}>/mo</span></div>
@@ -285,7 +286,7 @@ export default function Home() {
       </section>
 
       {/* ── FORM SECTION ── */}
-      <section id="form" style={{ background: '#fafafa', padding: '80px 24px' }}>
+      <section id="form" style={{ padding: '80px 24px' }}>
         <div style={{ maxWidth: 480, margin: '0 auto' }}>
           <RevealOnScroll>
             <div style={{
@@ -380,7 +381,7 @@ export default function Home() {
                     letterSpacing: '-0.01em',
                   }}
                 >
-                  {status === 'loading' ? 'Setting up radar...' : 'Activate Radar'}
+                  {status === 'loading' ? 'Setting up radar...' : '🗲 Activate Radar'}
                 </motion.button>
               </form>
 
@@ -398,9 +399,9 @@ export default function Home() {
       </section>
 
       {/* ── FEATURES SECTION ── */}
-      <section id="features" style={{ padding: '80px 24px', background: '#fff' }}>
-        <div style={{ maxWidth: 900, margin: '0 auto' }}>
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: 24 }}>
+      <section id="features" style={{ padding: '80px 24px' }}>
+        <div style={{ maxWidth: 1150, margin: '0 auto' }}>
+          <div className="responsive-grid-4">
             {[
               {
                 icon: '🕐',
@@ -423,7 +424,7 @@ export default function Home() {
                 desc: "We don't use your data beyond what's needed to notify you.",
               },
             ].map((f, i) => (
-              <RevealOnScroll key={f.title} delay={i * 0.08}>
+              <RevealOnScroll key={f.title} delay={i * 0.08} style={{ height: '100%' }}>
                 <motion.div
                   whileHover={{ y: -4, boxShadow: '0 12px 32px rgba(0,0,0,0.10)' }}
                   transition={{ duration: 0.2, ease: 'easeOut' }}
@@ -434,6 +435,8 @@ export default function Home() {
                     border: '1px solid #e5e7eb',
                     background: '#fff',
                     boxShadow: '0 2px 8px rgba(0,0,0,0.04)',
+                    height: '100%',
+                    boxSizing: 'border-box',
                   }}
                 >
                   <div style={{
@@ -453,23 +456,23 @@ export default function Home() {
       </section>
 
       {/* ── FOOTER ── */}
-      <footer style={{
-        borderTop: '1px solid #f0f0f0', padding: '0px 40px',
+      <footer className="footer-container glass-footer" style={{
+        padding: '0px 40px',
         display: 'grid', gridTemplateColumns: '1fr 1fr 1fr',
-        alignItems: 'center', height: 120, background: '#f8f8f8',
+        alignItems: 'center', height: 120,
       }}>
         {/* Left — logo */}
-        <div style={{ display: 'flex', alignItems: 'center' }}>
+        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
           <img src="/logo.svg?v=2" alt="Pricing Radar" style={{ height: 120, width: 120 }} />
         </div>
         {/* Center — links */}
-        <div style={{ display: 'flex', gap: 24, fontSize: 13, color: '#888', alignItems: 'center', justifyContent: 'center' }}>
+        <div className="footer-links" style={{ display: 'flex', gap: 24, fontSize: 13, color: '#374151', alignItems: 'center', justifyContent: 'center' }}>
           <a href="https://twitter.com" target="_blank" rel="noopener" style={footerLinkStyle}>Twitter</a>
           <a href="https://linkedin.com" target="_blank" rel="noopener" style={footerLinkStyle}>LinkedIn</a>
           <a href="mailto:contact@pricing-radar.com" style={footerLinkStyle}>contact@pricing-radar.com</a>
         </div>
         {/* Right — copyright */}
-        <div style={{ fontSize: 13, color: '#bbb', textAlign: 'right' }}>
+        <div className="footer-copyright" style={{ fontSize: 13, color: '#4b5563', textAlign: 'right' }}>
           © 2025 Pricing Radar. All rights reserved.
         </div>
       </footer>
@@ -496,5 +499,5 @@ const inputStyle: React.CSSProperties = {
 };
 
 const footerLinkStyle: React.CSSProperties = {
-  color: '#888', textDecoration: 'none',
+  color: '#4b5563', textDecoration: 'none',
 };

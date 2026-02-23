@@ -1,0 +1,132 @@
+/* app/globals.css */
+
+:root {
+  --primary: #2563eb;
+  --bg-hover: #f0f7ff;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Responsive Grid Containers */
+.responsive-grid-3 {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 24px;
+}
+
+.responsive-grid-4 {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 24px;
+}
+
+/* Animated Background */
+.animated-bg {
+  background: linear-gradient(-45deg, #ffffff, #eff6ff, #dbeafe, #ffffff);
+  background-size: 400% 400%;
+  animation: gradient 15s ease infinite;
+}
+
+@keyframes gradient {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+/* Optional: Mesh gradient for more depth */
+.mesh-bg {
+  background-color: #ffffff;
+  background-image: 
+    radial-gradient(at 0% 0%, hsla(221,83%,93%,1) 0, transparent 50%), 
+    radial-gradient(at 50% 0%, hsla(221,83%,96%,1) 0, transparent 50%), 
+    radial-gradient(at 100% 0%, hsla(221,83%,93%,1) 0, transparent 50%), 
+    radial-gradient(at 0% 50%, hsla(221,83%,98%,1) 0, transparent 50%), 
+    radial-gradient(at 100% 50%, hsla(221,83%,98%,1) 0, transparent 50%), 
+    radial-gradient(at 0% 100%, hsla(221,83%,93%,1) 0, transparent 50%), 
+    radial-gradient(at 50% 100%, hsla(221,83%,96%,1) 0, transparent 50%), 
+    radial-gradient(at 100% 100%, hsla(221,83%,93%,1) 0, transparent 50%);
+  background-size: 200% 200%;
+  animation: mesh-drift 20s ease-in-out infinite;
+}
+
+@keyframes mesh-drift {
+  0% { background-position: 0% 0%; }
+  50% { background-position: 100% 100%; }
+  100% { background-position: 0% 0%; }
+}
+
+/* Glassmorphism Classes */
+.glass-nav {
+  background: rgba(239, 246, 255, 0.6) !important; /* #eff6ff with opacity */
+  backdrop-filter: blur(12px) !important;
+  -webkit-backdrop-filter: blur(12px) !important;
+  border-bottom: 1px solid rgba(191, 219, 254, 0.4) !important; /* #bfdbfe tint */
+}
+
+.glass-footer {
+  background: rgba(239, 246, 255, 0.5) !important;
+  backdrop-filter: blur(12px) !important;
+  -webkit-backdrop-filter: blur(12px) !important;
+  border-top: 1px solid rgba(191, 219, 254, 0.4) !important;
+  box-shadow: 0 -4px 30px rgba(0, 0, 0, 0.03);
+}
+
+/* Mobile Adjustments (under 768px) */
+@media (max-width: 768px) {
+  .responsive-grid-3,
+  .responsive-grid-4 {
+    grid-template-columns: 1fr;
+  }
+
+  .nav-container {
+    padding: 0 16px !important;
+  }
+
+  .nav-links {
+    display: none !important; /* Hide desktop links for simplicity in MVP mobile view */
+  }
+
+  .hero-section {
+    padding: 40px 20px !important;
+  }
+
+  .section-padding {
+    padding: 60px 20px !important;
+  }
+
+  .footer-container {
+    grid-template-columns: 1fr !important;
+    height: auto !important;
+    padding: 40px 20px !important;
+    gap: 24px;
+    text-align: center;
+  }
+
+  .footer-links {
+    flex-direction: column;
+    gap: 12px !important;
+  }
+
+  .footer-copyright {
+    text-align: center !important;
+  }
+
+  .sample-alert-container {
+    padding: 16px !important;
+  }
+
+  .alert-grid {
+    grid-template-columns: 1fr !important;
+  }
+}
