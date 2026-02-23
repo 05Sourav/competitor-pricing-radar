@@ -14,7 +14,7 @@ export async function sendPricingAlert({
   summary: string;
 }) {
   const { data, error } = await resend.emails.send({
-    from: process.env.RESEND_FROM_EMAIL || 'alerts@yourdomain.com',
+    from: process.env.RESEND_FROM_EMAIL || 'alerts@pricingradar.xyz',
     to,
     subject: `🚨 Pricing change detected: ${competitorName}`,
     html: `

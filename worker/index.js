@@ -164,7 +164,7 @@ async function processMonitor(monitor) {
   // 9. Send email alert
   try {
     await resend.emails.send({
-      from: process.env.RESEND_FROM_EMAIL || "alerts@yourdomain.com",
+      from: process.env.RESEND_FROM_EMAIL || "alerts@pricingradar.xyz",
       to: monitor.user_email,
       subject: `🚨 Pricing change detected: ${monitor.competitor_name}`,
       html: buildEmailHtml(monitor, summary),
