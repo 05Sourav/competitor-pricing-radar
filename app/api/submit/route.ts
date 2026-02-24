@@ -104,6 +104,7 @@ export async function POST(req: NextRequest) {
       await resend.emails.send({
         from: process.env.RESEND_FROM_EMAIL!,
         to: email,
+        reply_to: 'contact@pricingradar.xyz',
         subject: `✅ Now monitoring ${competitorName} pricing`,
         html: `
 <!DOCTYPE html>
