@@ -473,7 +473,7 @@ export default function Home() {
         </div>
         {/* Right — copyright */}
         <div className="footer-copyright" style={{ fontSize: 13, color: '#4b5563', textAlign: 'right' }}>
-          © 2025 Pricing Radar. All rights reserved.
+          © 2026 Competitor Pricing Radar. All rights reserved.
         </div>
       </footer>
     </div>
