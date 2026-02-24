@@ -469,7 +469,7 @@ export default function Home() {
         <div className="footer-links" style={{ display: 'flex', gap: 24, fontSize: 13, color: '#374151', alignItems: 'center', justifyContent: 'center' }}>
           <a href="https://twitter.com" target="_blank" rel="noopener" style={footerLinkStyle}>Twitter</a>
           <a href="https://linkedin.com" target="_blank" rel="noopener" style={footerLinkStyle}>LinkedIn</a>
-          <a href="mailto:contact@pricing-radar.com" style={footerLinkStyle}>contact@pricing-radar.com</a>
+          <a href="mailto:pricingradar@gmail.com" style={footerLinkStyle}>pricingradar@gmail.com</a>
         </div>
         {/* Right — copyright */}
         <div className="footer-copyright" style={{ fontSize: 13, color: '#4b5563', textAlign: 'right' }}>
