@@ -102,9 +102,11 @@ export async function POST(req: NextRequest) {
     try {
       const dashboardUrl = `${process.env.NEXT_PUBLIC_APP_URL}/dashboard?email=${encodeURIComponent(email)}`;
       await resend.emails.send({
-        from: process.env.RESEND_FROM_EMAIL!,
+        from: 'Competitor Pricing Radar <alerts@pricingradar.xyz>',
         to: email,
-        subject: `✅ Now monitoring ${competitorName} pricing`,
+        reply_to: 'pricingradar@gmail.com',
+        subject: `Monitoring confirmed - ${competitorName}`,
+
         html: `
 <!DOCTYPE html>
 <html lang="en">
@@ -121,8 +123,10 @@ export async function POST(req: NextRequest) {
 
         <!-- Body -->
         <tr><td style="padding:36px 40px 28px;">
-          <p style="margin:0 0 6px;font-size:22px;font-weight:700;color:#18181b;">You're all set! 🎯</p>
-          <p style="margin:0 0 28px;font-size:15px;color:#52525b;">We'll keep a close eye on <strong>${competitorName}</strong> and alert you the moment their pricing changes.</p>
+          <p style="margin:0 0 6px;font-size:15px;color:#52525b;">Hi there,</p>
+          <p style="margin:0 0 20px;font-size:13px;color:#a1a1aa;">You're receiving this because you signed up at pricingradar.xyz</p>
+          <p style="margin:0 0 6px;font-size:22px;font-weight:700;color:#18181b;">You're all set</p>
+          <p style="margin:0 0 28px;font-size:15px;color:#52525b;">We'll keep a close eye on <strong>${competitorName}</strong> and notify you when their pricing changes.</p>
 
           <!-- Highlight box -->
           <div style="background:#fefce8;border-left:4px solid #facc15;border-radius:6px;padding:18px 20px;margin-bottom:28px;">
@@ -135,12 +139,14 @@ export async function POST(req: NextRequest) {
 
           <p style="margin:0 0 28px;font-size:15px;color:#52525b;">Checks run <strong>daily</strong>. We'll email you at this address the moment we detect a pricing change — no action needed on your end.</p>
 
-          <a href="${dashboardUrl}" style="display:inline-block;background:#18181b;color:#ffffff;font-size:14px;font-weight:600;text-decoration:none;padding:12px 24px;border-radius:8px;">View Dashboard →</a>
+          <a href="${dashboardUrl}" style="display:inline-block;background:#18181b;color:#ffffff;font-size:14px;font-weight:600;text-decoration:none;padding:12px 24px;border-radius:8px;">View Dashboard</a>
         </td></tr>
 
         <!-- Footer -->
         <tr><td style="padding:20px 40px;border-top:1px solid #f4f4f5;">
-          <p style="margin:0;font-size:12px;color:#a1a1aa;">You're receiving this because you signed up at Competitor Pricing Radar.</p>
+          <p style="margin:0;font-size:12px;color:#a1a1aa;">You're receiving this because you signed up at pricingradar.xyz</p>
+          <p style="margin:6px 0 0;font-size:12px;color:#a1a1aa;">To unsubscribe, reply with 'unsubscribe' in the subject line.</p>
+          <p style="margin:6px 0 0;font-size:12px;color:#a1a1aa;">pricingradar.xyz | contact: pricingradar@gmail.com</p>
         </td></tr>
 
       </table>
@@ -148,6 +154,20 @@ export async function POST(req: NextRequest) {
   </table>
 </body>
 </html>`,
+        text: `Hi there,
+
+You're receiving this because you signed up at pricingradar.xyz.
+
+Monitoring confirmed - ${competitorName}
+
+We are now monitoring ${competitorName} (${url}) for pricing changes.
+Checks run daily. We will email you the moment we detect a pricing change.
+
+View your dashboard: ${dashboardUrl}
+
+---
+To unsubscribe, reply with 'unsubscribe' in the subject line.
+pricingradar.xyz | contact: pricingradar@gmail.com`,
       });
     } catch (emailErr) {
       console.error('[submit] Confirmation email failed (non-fatal):', emailErr);

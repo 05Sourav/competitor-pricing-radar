@@ -164,10 +164,12 @@ async function processMonitor(monitor) {
   // 9. Send email alert
   try {
     await resend.emails.send({
-      from: process.env.RESEND_FROM_EMAIL || "alerts@pricingradar.xyz",
+      from: "Competitor Pricing Radar <alerts@pricingradar.xyz>",
       to: monitor.user_email,
-      subject: `🚨 Pricing change detected: ${monitor.competitor_name}`,
+      reply_to: "pricingradar@gmail.com",
+      subject: `Pricing change detected - ${monitor.competitor_name}`,
       html: buildEmailHtml(monitor, summary),
+      text: buildEmailText(monitor, summary),
     });
 
     // Mark alert as emailed
@@ -183,7 +185,10 @@ async function processMonitor(monitor) {
 function buildEmailHtml(monitor, summary) {
   return `
     <div style="font-family: sans-serif; max-width: 600px; margin: 0 auto; padding: 24px;">
-      <h2 style="color: #ef4444; margin-bottom: 8px;">🚨 Pricing Change Detected</h2>
+      <p style="color: #374151; margin-bottom: 4px;">Hi there,</p>
+      <p style="color: #9ca3af; font-size: 12px; margin-bottom: 24px;">You're receiving this because you signed up at pricingradar.xyz</p>
+
+      <h2 style="color: #b91c1c; margin-bottom: 8px;">Pricing Change Detected</h2>
       <p style="color: #6b7280; margin-bottom: 24px;">
         Competitor Pricing Radar spotted a change on <strong>${monitor.competitor_name}</strong>
       </p>
@@ -197,11 +202,29 @@ function buildEmailHtml(monitor, summary) {
 
       <hr style="margin: 24px 0; border: none; border-top: 1px solid #e5e7eb;" />
       <p style="color: #9ca3af; font-size: 12px;">
-        Alerts are sent only when meaningful pricing changes are detected.<br/>
-        Powered by Competitor Pricing Radar.
+        You're receiving this because you signed up at pricingradar.xyz<br/>
+        To unsubscribe, reply with 'unsubscribe' in the subject line.<br/>
+        pricingradar.xyz | contact: pricingradar@gmail.com
       </p>
     </div>
   `;
+}
+
+// ---- Email Plain Text ----
+function buildEmailText(monitor, summary) {
+  return `Hi there,
+
+You're receiving this because you signed up at pricingradar.xyz.
+
+Pricing change detected - ${monitor.competitor_name}
+
+${summary}
+
+Source URL: ${monitor.url}
+
+---
+To unsubscribe, reply with 'unsubscribe' in the subject line.
+pricingradar.xyz | contact: pricingradar@gmail.com`;
 }
 
 // ---- Helpers ----
