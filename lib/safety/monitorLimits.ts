@@ -21,7 +21,7 @@ export async function checkEmailMonitorLimit(
     .eq('user_email', email);
 
   if (error) {
-    // Propagate so the caller can handle via handleApiError
+    console.error('[monitorLimits] Email limit check Supabase error:', error.code, error.message);
     throw new Error(`Failed to check email monitor limit: ${error.message}`);
   }
 
@@ -45,6 +45,7 @@ export async function checkGlobalMonitorCapacity(): Promise<{
     .select('*', { count: 'exact', head: true });
 
   if (error) {
+    console.error('[monitorLimits] Global capacity check Supabase error:', error.code, error.message);
     throw new Error(`Failed to check global monitor capacity: ${error.message}`);
   }
 

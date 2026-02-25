@@ -41,7 +41,7 @@ export default function Home() {
         setMessage(data.error || 'Something went wrong');
       } else {
         setStatus('success');
-        setMessage("✅ Monitor added! You'll receive email alerts when pricing changes are detected.");
+        setMessage("✅ Monitor added! A confirmation email is on its way — if you don't see it, check your spam or Promotions folder and mark us as a trusted sender so you never miss an alert.");
         setCompetitorName('');
         setUrl('');
       }
@@ -241,43 +241,33 @@ export default function Home() {
                   <div style={{ width: 42 }} />
                 </div>
 
-                <div style={{ padding: '28px 28px 24px' }}>
-                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: 16 }}>
-                    <div>
-                      <div style={{ fontSize: 13, color: '#999', marginBottom: 4 }}>Detected on Feb 19, 2025</div>
-                      <div style={{ fontWeight: 700, fontSize: 20, color: '#111' }}>Pricing Change Detected: Example SaaS</div>
-                    </div>
-                    <span style={{
-                      background: '#fef2f2', color: '#dc2626', border: '1px solid #fecaca',
-                      borderRadius: 999, padding: '4px 12px', fontSize: 12, fontWeight: 600, whiteSpace: 'nowrap',
-                    }}>
-                      High Impact
-                    </span>
+                <div style={{ padding: '32px 32px 28px' }}>
+                  <p style={{ color: '#374151', margin: '0 0 4px', fontSize: 14 }}>Hi there,</p>
+                  <p style={{ color: '#9ca3af', fontSize: 12, margin: '0 0 24px' }}>You're receiving this because you signed up at pricingradar.xyz</p>
+
+                  <h2 style={{ color: '#b91c1c', fontSize: 22, fontWeight: 700, margin: '0 0 8px' }}>Pricing Change Detected</h2>
+                  <p style={{ color: '#6b7280', fontSize: 15, margin: '0 0 24px' }}>
+                    Competitor Pricing Radar spotted a change on <strong>Acme SaaS</strong>
+                  </p>
+
+                  <div style={{ background: '#fef3c7', borderLeft: '4px solid #f59e0b', padding: '16px', borderRadius: '4px', marginBottom: '24px' }}>
+                    <p style={{ margin: 0, fontSize: 16, color: '#92400e', lineHeight: 1.5 }}>Ecommerce transaction fee increased from 40¢ to 50¢.</p>
                   </div>
 
-                  <div style={{ background: '#f9fafb', borderRadius: 10, padding: '16px 20px', marginBottom: 20 }}>
-                    <div style={{ fontSize: 12, fontWeight: 600, color: '#999', textTransform: 'uppercase', letterSpacing: '0.05em', marginBottom: 8 }}>AI Summary</div>
-                    <p style={{ margin: 0, fontSize: 14, color: '#444', lineHeight: 1.6 }}>
-                      A new <strong>20% discount</strong> on yearly plans across all paid tiers has been introduced. The monthly price for the "Plus" plan remains $16, but is now offered at $12 when billed annually.
+                  <p style={{ margin: '0 0 4px', color: '#374151', fontSize: 14 }}><strong>Source URL:</strong></p>
+                  <a href="#" style={{ color: '#3b82f6', textDecoration: 'none', fontSize: 14, wordBreak: 'break-all' }}>https://acmesaas.com/pricing</a>
+
+                  <div style={{ marginTop: 32, paddingTop: 20, borderTop: '1px solid #f0f0f0' }}>
+                    <p style={{ color: '#9ca3af', fontSize: 12, margin: '0 0 4px' }}>
+                      You're receiving this because you signed up at pricingradar.xyz
+                    </p>
+                    <p style={{ color: '#9ca3af', fontSize: 12, margin: '0 0 4px' }}>
+                      To unsubscribe, reply with 'unsubscribe' in the subject line.
+                    </p>
+                    <p style={{ color: '#9ca3af', fontSize: 12, margin: 0 }}>
+                      pricingradar.xyz | contact: pricingradar@gmail.com
                     </p>
                   </div>
-
-                  <div className="alert-grid" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 12, marginBottom: 20 }}>
-                    <div style={{ border: '1px solid #e5e7eb', borderRadius: 10, padding: '16px 20px' }}>
-                      <div style={{ fontSize: 11, color: '#999', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.05em', marginBottom: 8 }}>BEFORE</div>
-                      <div style={{ fontSize: 28, fontWeight: 700, color: '#111' }}>$16.66<span style={{ fontSize: 14, fontWeight: 400, color: '#666' }}>/mo</span></div>
-                      <div style={{ fontSize: 13, color: '#999', marginTop: 4 }}>Billed annually</div>
-                    </div>
-                    <div style={{ border: '2px solid #2563eb', borderRadius: 10, padding: '16px 20px', background: '#eff6ff' }}>
-                      <div style={{ fontSize: 11, color: '#2563eb', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.05em', marginBottom: 8 }}>AFTER</div>
-                      <div style={{ fontSize: 28, fontWeight: 700, color: '#2563eb' }}>$12.00<span style={{ fontSize: 14, fontWeight: 400, color: '#6b7280' }}>/mo</span></div>
-                      <div style={{ fontSize: 13, color: '#2563eb', marginTop: 4, fontWeight: 500 }}>🎉 Privacy-first update</div>
-                    </div>
-                  </div>
-
-                  <a href="#" style={{ fontSize: 13, color: '#2563eb', fontWeight: 500, textDecoration: 'none' }}>
-                    View Full Comparison History →
-                  </a>
                 </div>
               </div>
             </Floating>

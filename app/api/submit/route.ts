@@ -13,6 +13,7 @@ const resend = new Resend(process.env.RESEND_API_KEY);
 
 export async function POST(req: NextRequest) {
   try {
+    console.log('[submit] ▶ Step 1: Parsing request body');
     const body = await req.json();
     const { email, competitorName, url } = body;
 
@@ -32,32 +33,48 @@ export async function POST(req: NextRequest) {
       return errorResponse('Invalid URL format', 400);
     }
 
+    console.log('[submit] ▶ Step 2: Checking global monitor capacity');
     // ── Feature 2: Global monitor cap (max 500) ───────────────────────────────
-    const globalCheck = await checkGlobalMonitorCapacity();
-    if (globalCheck.limited) {
-      return errorResponse('Beta capacity reached. Please try again later.', 503);
+    try {
+      const globalCheck = await checkGlobalMonitorCapacity();
+      if (globalCheck.limited) {
+        return errorResponse('Beta capacity reached. Please try again later.', 503);
+      }
+    } catch (capErr) {
+      console.warn('[submit] Global capacity check failed (non-fatal — proceeding):', capErr);
     }
 
+    console.log('[submit] ▶ Step 3: Checking per-email monitor limit');
     // ── Feature 1: Per-email monitor limit (max 3) ────────────────────────────
-    const emailCheck = await checkEmailMonitorLimit(email);
-    if (emailCheck.limited) {
-      return errorResponse('Monitor limit reached (max 3 during beta).', 403);
+    try {
+      const emailCheck = await checkEmailMonitorLimit(email);
+      if (emailCheck.limited) {
+        return errorResponse('Monitor limit reached (max 3 during beta).', 403);
+      }
+    } catch (limitErr) {
+      console.warn('[submit] Email limit check failed (non-fatal — proceeding):', limitErr);
     }
 
     const supabase = getAdminClient();
 
+    console.log('[submit] ▶ Step 4: Duplicate check');
     // ── Duplicate check ───────────────────────────────────────────────────────
-    const { data: existing } = await supabase
+    const { data: existing, error: dupError } = await supabase
       .from('monitors')
       .select('id')
       .eq('user_email', email)
       .eq('url', url)
-      .single();
+      .maybeSingle(); // maybeSingle returns null (not error) when no row found
 
     if (existing) {
       return errorResponse('You are already monitoring this URL', 409);
     }
+    if (dupError) {
+      console.error('[submit] Duplicate check error:', dupError);
+      // Non-fatal: proceed with insert, DB unique constraint will catch real duplicates
+    }
 
+    console.log('[submit] ▶ Step 5: Inserting monitor into DB');
     // ── Insert new monitor ────────────────────────────────────────────────────
     const { data: monitor, error } = await supabase
       .from('monitors')
@@ -75,6 +92,7 @@ export async function POST(req: NextRequest) {
       return errorResponse('Failed to save monitor', 500);
     }
 
+    console.log('[submit] ▶ Step 6: Initial baseline scrape');
     // ── INITIAL BASELINE SCRAPE ──────────────────────────────────────────────
     // We scrape immediately so the user doesn't see an empty dashboard.
     try {
@@ -94,20 +112,24 @@ export async function POST(req: NextRequest) {
         console.log(`[submit] Created initial baseline snapshot for ${competitorName}`);
       }
     } catch (scrapeErr) {
-      console.error('[submit] Initial scrape failed:', scrapeErr);
+      console.error('[submit] Initial scrape failed (non-fatal):', scrapeErr);
       // Non-fatal: monitor is still created, worker will try again later.
     }
 
-    // ── Confirmation email (fire-and-forget) ─────────────────────────────────
+    console.log('[submit] ▶ Step 7: Sending confirmation email');
+    // ── Confirmation email ────────────────────────────────────────────────────
+    // Awaited so it completes before returning (Vercel freezes function on return).
+    // Wrapped in try/catch so errors are non-fatal.
+    // Race against 6s timeout so a slow Resend API never blocks the response long.
+    const dashboardUrl = `${process.env.NEXT_PUBLIC_APP_URL}/dashboard?email=${encodeURIComponent(email)}`;
     try {
-      const dashboardUrl = `${process.env.NEXT_PUBLIC_APP_URL}/dashboard?email=${encodeURIComponent(email)}`;
-      await resend.emails.send({
-        from: 'Competitor Pricing Radar <alerts@pricingradar.xyz>',
-        to: email,
-        reply_to: 'pricingradar@gmail.com',
-        subject: `Monitoring confirmed - ${competitorName}`,
-
-        html: `
+      await Promise.race([
+        resend.emails.send({
+          from: 'Competitor Pricing Radar <alerts@pricingradar.xyz>',
+          to: email,
+          reply_to: 'pricingradar@gmail.com',
+          subject: `Monitoring confirmed - ${competitorName}`,
+          html: `
 <!DOCTYPE html>
 <html lang="en">
 <head><meta charset="UTF-8" /><meta name="viewport" content="width=device-width,initial-scale=1" /></head>
@@ -154,7 +176,7 @@ export async function POST(req: NextRequest) {
   </table>
 </body>
 </html>`,
-        text: `Hi there,
+          text: `Hi there,
 
 You're receiving this because you signed up at pricingradar.xyz.
 
@@ -168,13 +190,19 @@ View your dashboard: ${dashboardUrl}
 ---
 To unsubscribe, reply with 'unsubscribe' in the subject line.
 pricingradar.xyz | contact: pricingradar@gmail.com`,
-      });
+        }),
+        new Promise<never>((_, reject) =>
+          setTimeout(() => reject(new Error('Email send timeout after 6s')), 6000)
+        ),
+      ]);
+      console.log('[submit] Confirmation email sent successfully');
     } catch (emailErr) {
       console.error('[submit] Confirmation email failed (non-fatal):', emailErr);
     }
 
-    // ── Feature 4: Structured success response ────────────────────────────────
+    // ── Structured success response ───────────────────────────────────────────
     return successResponse({ monitor }, 201);
+
 
   } catch (err) {
     // ── Feature 4: Safe catch-all — never expose internals ────────────────────
