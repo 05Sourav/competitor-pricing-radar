@@ -429,6 +429,43 @@ const healthServer = http.createServer((req, res) => {
     } else {
       res.end();
     }
+  } else if (method === "GET" && url.startsWith("/trigger")) {
+    // Manual trigger endpoint — protected by secret token
+    // Usage: GET /trigger?secret=YOUR_TRIGGER_SECRET
+    const triggerSecret = process.env.TRIGGER_SECRET;
+    const params = new URLSearchParams(
+      url.includes("?") ? url.split("?")[1] : "",
+    );
+    const providedSecret = params.get("secret");
+
+    if (!triggerSecret) {
+      res.writeHead(503, { "Content-Type": "application/json" });
+      res.end(
+        JSON.stringify({
+          error: "TRIGGER_SECRET env var not set on this server",
+        }),
+      );
+      return;
+    }
+
+    if (!providedSecret || providedSecret !== triggerSecret) {
+      res.writeHead(401, { "Content-Type": "application/json" });
+      res.end(JSON.stringify({ error: "Invalid or missing secret" }));
+      return;
+    }
+
+    // Respond immediately — monitoring runs async in background
+    res.writeHead(202, { "Content-Type": "application/json" });
+    res.end(
+      JSON.stringify({
+        status: "triggered",
+        message: "Monitoring run started. Watch Render logs for progress.",
+        timestamp: new Date().toISOString(),
+      }),
+    );
+
+    console.log("[worker] Manual trigger via /trigger endpoint");
+    runMonitoring().catch(console.error);
   } else {
     res.writeHead(404);
     res.end();
