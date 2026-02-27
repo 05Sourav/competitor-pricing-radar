@@ -11,7 +11,7 @@ const cron = require("node-cron");
 const { createClient } = require("@supabase/supabase-js");
 const { Resend } = require("resend");
 const { scrapePage } = require("./scraper");
-const { compareSnapshots, buildEmailDiffSnippet } = require("./diff");
+const { compareSnapshots } = require("./diff");
 const { detectChanges } = require("./detector");
 
 // ---- Clients ----
@@ -185,7 +185,6 @@ async function processMonitor(monitor) {
 
   // 10. Send structured email alert
   const detectedAt = new Date().toISOString();
-  const diffSnippet = buildEmailDiffSnippet(prevSnapshot.content, newContent);
 
   try {
     await resend.emails.send({
@@ -193,8 +192,8 @@ async function processMonitor(monitor) {
       to: monitor.user_email,
       reply_to: "pricingradar@gmail.com",
       subject: `[PricingRadar] ${monitor.competitor_name} pricing changed`,
-      html: buildEmailHtml(monitor, changeResult, detectedAt, diffSnippet),
-      text: buildEmailText(monitor, changeResult, detectedAt, diffSnippet),
+      html: buildEmailHtml(monitor, changeResult, detectedAt),
+      text: buildEmailText(monitor, changeResult, detectedAt),
     });
 
     // Mark alert as emailed + update monitor change-tracking fields
@@ -225,7 +224,7 @@ const CHANGE_TYPE_LABELS = {
 };
 
 // ---- Email HTML ----
-function buildEmailHtml(monitor, change, detectedAt, diffSnippet) {
+function buildEmailHtml(monitor, change, detectedAt) {
   const typeLabel = CHANGE_TYPE_LABELS[change.type] || change.type;
   const detectedDate = new Date(detectedAt).toLocaleString("en-US", {
     month: "long",
@@ -245,20 +244,6 @@ function buildEmailHtml(monitor, change, detectedAt, diffSnippet) {
     copy_change: { bg: "#fafaf9", border: "#a8a29e", text: "#44403c" },
   };
   const badge = badgeColors[change.type] || badgeColors.copy_change;
-
-  // Build the diff snippet block (only if non-trivial)
-  const diffBlock =
-    diffSnippet && diffSnippet !== "(no diff snippet available)"
-      ? `<tr><td style="padding:0 40px 28px;">
-        <p style="margin:0 0 8px;font-size:12px;font-weight:600;color:#71717a;text-transform:uppercase;letter-spacing:.5px;">Page Diff (preview)</p>
-        <pre style="background:#18181b;color:#d4d4d8;font-size:12px;line-height:1.6;padding:14px 16px;border-radius:8px;overflow-x:auto;margin:0;white-space:pre-wrap;word-break:break-word;">${diffSnippet
-          .replace(/&/g, "&amp;")
-          .replace(/</g, "&lt;")
-          .replace(/>/g, "&gt;")
-          .replace(/^(-.+)$/gm, '<span style="color:#f87171">$1</span>')
-          .replace(/^(\+.+)$/gm, '<span style="color:#4ade80">$1</span>')}</pre>
-      </td></tr>`
-      : "";
 
   return `<!DOCTYPE html>
 <html lang="en">
@@ -328,8 +313,6 @@ function buildEmailHtml(monitor, change, detectedAt, diffSnippet) {
           </div>
         </td></tr>
 
-        <!-- Diff snippet -->
-        ${diffBlock}
 
         <!-- Source URL -->
         <tr><td style="padding:0 40px 32px;">
@@ -352,7 +335,7 @@ function buildEmailHtml(monitor, change, detectedAt, diffSnippet) {
 }
 
 // ---- Email Plain Text ----
-function buildEmailText(monitor, change, detectedAt, diffSnippet) {
+function buildEmailText(monitor, change, detectedAt) {
   const typeLabel = CHANGE_TYPE_LABELS[change.type] || change.type;
   const detectedDate = new Date(detectedAt).toUTCString();
 
@@ -373,13 +356,6 @@ function buildEmailText(monitor, change, detectedAt, diffSnippet) {
   lines.push(`Detected    : ${detectedDate}`);
   lines.push(``);
   lines.push(`Summary: ${change.summary}`);
-
-  if (diffSnippet && diffSnippet !== "(no diff snippet available)") {
-    lines.push(``);
-    lines.push(`PAGE DIFF (PREVIEW)`);
-    lines.push(`-------------------`);
-    lines.push(diffSnippet);
-  }
 
   lines.push(``);
   lines.push(`Source URL: ${monitor.url}`);
