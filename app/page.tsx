@@ -223,52 +223,133 @@ export default function Home() {
 
           <RevealOnScroll delay={0.1}>
             <Floating>
-              {/* Mock email card */}
+              {/* Mock email card — polished website showcase */}
               <div style={{
-                background: '#fff', border: '1px solid #e5e7eb', borderRadius: 16,
-                boxShadow: '0 8px 40px rgba(0,0,0,0.10)', textAlign: 'left', overflow: 'hidden',
+                background: '#fff',
+                border: '1px solid #e0e7ff',
+                borderRadius: 20,
+                boxShadow: '0 0 0 1px rgba(99,102,241,0.06), 0 20px 60px rgba(37,99,235,0.13), 0 4px 16px rgba(0,0,0,0.06)',
+                textAlign: 'left',
+                overflow: 'hidden',
               }}>
-                {/* Window chrome */}
-                <div style={{ background: '#f5f5f5', padding: '10px 16px', borderBottom: '1px solid #e8e8e8', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-                  <div style={{ display: 'flex', gap: 6 }}>
-                    <div style={{ width: 12, height: 12, borderRadius: '50%', background: '#ff5f57' }} />
-                    <div style={{ width: 12, height: 12, borderRadius: '50%', background: '#ffbd2e' }} />
-                    <div style={{ width: 12, height: 12, borderRadius: '50%', background: '#28c840' }} />
+
+                {/* macOS window chrome */}
+                <div style={{ background: '#f0f0f0', padding: '10px 16px', borderBottom: '1px solid #e0e0e0', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+                  <div style={{ display: 'flex', gap: 7 }}>
+                    <div style={{ width: 13, height: 13, borderRadius: '50%', background: '#ff5f57', boxShadow: '0 0 0 1px rgba(0,0,0,0.1)' }} />
+                    <div style={{ width: 13, height: 13, borderRadius: '50%', background: '#ffbd2e', boxShadow: '0 0 0 1px rgba(0,0,0,0.1)' }} />
+                    <div style={{ width: 13, height: 13, borderRadius: '50%', background: '#28c840', boxShadow: '0 0 0 1px rgba(0,0,0,0.1)' }} />
                   </div>
-                  <span style={{ fontSize: 11, color: '#999', fontWeight: 600, letterSpacing: '0.05em', textTransform: 'uppercase' }}>
-                    PRICING RADAR NOTIFICATION
+                  <span style={{ fontSize: 11, color: '#999', fontWeight: 600, letterSpacing: '0.08em', textTransform: 'uppercase' }}>
+                    pricingradar.xyz — Inbox
                   </span>
-                  <div style={{ width: 42 }} />
+                  <div style={{ width: 52 }} />
                 </div>
 
-                <div style={{ padding: '32px 32px 28px' }}>
-                  <p style={{ color: '#374151', margin: '0 0 4px', fontSize: 14 }}>Hi there,</p>
-                  <p style={{ color: '#9ca3af', fontSize: 12, margin: '0 0 24px' }}>You're receiving this because you signed up at pricingradar.xyz</p>
-
-                  <h2 style={{ color: '#b91c1c', fontSize: 22, fontWeight: 700, margin: '0 0 8px' }}>Pricing Change Detected</h2>
-                  <p style={{ color: '#6b7280', fontSize: 15, margin: '0 0 24px' }}>
-                    Competitor Pricing Radar spotted a change on <strong>Acme SaaS</strong>
+                {/* Brand header — gradient accent */}
+                <div style={{
+                  background: 'linear-gradient(135deg, #18181b 0%, #27272a 100%)',
+                  padding: '22px 32px',
+                  display: 'flex', alignItems: 'center', justifyContent: 'space-between',
+                }}>
+                  <p style={{ margin: 0, fontSize: 16, fontWeight: 700, color: '#ffffff', letterSpacing: '-0.3px' }}>
+                    Competitor Pricing Radar
                   </p>
+                  <span style={{
+                    fontSize: 11, fontWeight: 600, color: '#a1a1aa',
+                    background: 'rgba(255,255,255,0.07)', border: '1px solid rgba(255,255,255,0.12)',
+                    borderRadius: 99, padding: '3px 10px', letterSpacing: '0.04em',
+                  }}>ALERT</span>
+                </div>
 
-                  <div style={{ background: '#fef3c7', borderLeft: '4px solid #f59e0b', padding: '16px', borderRadius: '4px', marginBottom: '24px' }}>
-                    <p style={{ margin: 0, fontSize: 16, color: '#92400e', lineHeight: 1.5 }}>Ecommerce transaction fee increased from 40¢ to 50¢.</p>
+                {/* Title + badge row */}
+                <div style={{ padding: '26px 32px 0', display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', flexWrap: 'wrap', gap: 12 }}>
+                  <div>
+                    <p style={{ margin: '0 0 3px', fontSize: 20, fontWeight: 800, color: '#18181b', letterSpacing: '-0.02em' }}>
+                      Pricing Change Detected
+                    </p>
+                    <p style={{ margin: 0, fontSize: 13, color: '#71717a' }}>
+                      on <strong style={{ color: '#18181b' }}>Acme SaaS</strong>
+                    </p>
                   </div>
+                  {/* Change type badge */}
+                  <span style={{
+                    display: 'inline-flex', alignItems: 'center', gap: 5,
+                    background: '#fef2f2', border: '1px solid #fca5a5', color: '#b91c1c',
+                    fontSize: 12, fontWeight: 700, padding: '5px 13px', borderRadius: 99,
+                    boxShadow: '0 0 0 3px rgba(239,68,68,0.08)',
+                    whiteSpace: 'nowrap',
+                  }}>
+                    <span style={{ width: 6, height: 6, borderRadius: '50%', background: '#ef4444', display: 'inline-block' }} />
+                    Price Change
+                  </span>
+                </div>
 
-                  <p style={{ margin: '0 0 4px', color: '#374151', fontSize: 14 }}><strong>Source URL:</strong></p>
-                  <a href="#" style={{ color: '#3b82f6', textDecoration: 'none', fontSize: 14, wordBreak: 'break-all' }}>https://acmesaas.com/pricing</a>
+                {/* Before / After visual comparison */}
+                <div style={{ padding: '20px 32px' }}>
+                  <div style={{
+                    display: 'grid', gridTemplateColumns: '1fr auto 1fr', gap: 12,
+                    alignItems: 'center', background: '#f8faff',
+                    border: '1px solid #e0e7ff', borderRadius: 14, padding: '20px 24px',
+                  }}>
+                    {/* Before */}
+                    <div style={{ textAlign: 'center' }}>
+                      <p style={{ margin: '0 0 4px', fontSize: 11, fontWeight: 700, color: '#9ca3af', textTransform: 'uppercase', letterSpacing: '0.08em' }}>Before</p>
+                      <p style={{ margin: '0 0 2px', fontSize: 26, fontWeight: 800, color: '#dc2626', letterSpacing: '-0.03em' }}>$49</p>
+                      <p style={{ margin: 0, fontSize: 12, color: '#9ca3af' }}>/ month · Pro</p>
+                    </div>
+                    {/* Arrow */}
+                    <div style={{
+                      width: 36, height: 36, borderRadius: '50%',
+                      background: 'linear-gradient(135deg, #2563eb, #4f46e5)',
+                      display: 'flex', alignItems: 'center', justifyContent: 'center',
+                      boxShadow: '0 4px 12px rgba(37,99,235,0.3)',
+                      fontSize: 16, color: '#fff', flexShrink: 0,
+                    }}>→</div>
+                    {/* After */}
+                    <div style={{ textAlign: 'center' }}>
+                      <p style={{ margin: '0 0 4px', fontSize: 11, fontWeight: 700, color: '#9ca3af', textTransform: 'uppercase', letterSpacing: '0.08em' }}>Now</p>
+                      <p style={{ margin: '0 0 2px', fontSize: 26, fontWeight: 800, color: '#16a34a', letterSpacing: '-0.03em' }}>$59</p>
+                      <p style={{ margin: 0, fontSize: 12, color: '#9ca3af' }}>/ month · Pro</p>
+                    </div>
+                  </div>
+                </div>
 
-                  <div style={{ marginTop: 32, paddingTop: 20, borderTop: '1px solid #f0f0f0' }}>
-                    <p style={{ color: '#9ca3af', fontSize: 12, margin: '0 0 4px' }}>
-                      You're receiving this because you signed up at pricingradar.xyz
-                    </p>
-                    <p style={{ color: '#9ca3af', fontSize: 12, margin: '0 0 4px' }}>
-                      To unsubscribe, reply with 'unsubscribe' in the subject line.
-                    </p>
-                    <p style={{ color: '#9ca3af', fontSize: 12, margin: 0 }}>
-                      pricingradar.xyz | contact: pricingradar@gmail.com
+                {/* Detected timestamp row */}
+                <div style={{ padding: '0 32px 20px' }}>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: 8, color: '#71717a', fontSize: 12 }}>
+                    <span>🕑</span>
+                    <span>Detected: <strong style={{ color: '#374151' }}>February 28, 2026, 02:00 AM UTC</strong></span>
+                  </div>
+                </div>
+
+                {/* Summary callout */}
+                <div style={{ padding: '0 32px 20px' }}>
+                  <div style={{
+                    background: '#fefce8', borderLeft: '4px solid #facc15',
+                    borderRadius: '0 8px 8px 0', padding: '13px 16px',
+                  }}>
+                    <p style={{ margin: 0, fontSize: 14, color: '#78350f', lineHeight: 1.55 }}>
+                      Acme SaaS raised their Pro plan from $49 to $59/month — a 20% price increase.
                     </p>
                   </div>
                 </div>
+
+                {/* Source URL */}
+                <div style={{ padding: '0 32px 26px' }}>
+                  <p style={{ margin: '0 0 3px', fontSize: 11, fontWeight: 700, color: '#a1a1aa', textTransform: 'uppercase', letterSpacing: '0.06em' }}>Source URL</p>
+                  <a href="#" style={{ fontSize: 13, color: '#2563eb', textDecoration: 'none', wordBreak: 'break-all', fontWeight: 500 }}>
+                    https://acmesaas.com/pricing
+                  </a>
+                </div>
+
+                {/* Footer */}
+                <div style={{ padding: '14px 32px 18px', borderTop: '1px solid #f4f4f5', background: '#fafafa' }}>
+                  <p style={{ margin: 0, fontSize: 12, color: '#a1a1aa' }}>You're receiving this because you signed up at pricingradar.xyz</p>
+                  <p style={{ margin: '4px 0 0', fontSize: 12, color: '#a1a1aa' }}>To unsubscribe, reply with 'unsubscribe' in the subject line.</p>
+                  <p style={{ margin: '4px 0 0', fontSize: 12, color: '#a1a1aa' }}>pricingradar.xyz | contact: pricingradar@gmail.com</p>
+                </div>
+
               </div>
             </Floating>
           </RevealOnScroll>
