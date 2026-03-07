@@ -482,7 +482,7 @@ export default function Home() {
               {
                 icon: '🤖',
                 title: 'AI-powered detection',
-                desc: "No more HTML diffs. Our LLMs score and filter changes and always make sense for you.",
+                desc: "Automatically analyzes page updates and identifies whether prices, plans, or features changed — so you only see what actually matters.",
               },
               {
                 icon: '🎯',
@@ -538,8 +538,8 @@ export default function Home() {
         </div>
         {/* Center — links */}
         <div className="footer-links" style={{ display: 'flex', gap: 24, fontSize: 13, color: '#374151', alignItems: 'center', justifyContent: 'center' }}>
-          <a href="https://twitter.com" target="_blank" rel="noopener" style={footerLinkStyle}>Twitter</a>
-          <a href="https://linkedin.com" target="_blank" rel="noopener" style={footerLinkStyle}>LinkedIn</a>
+          {/* <a href="https://twitter.com" target="_blank" rel="noopener" style={footerLinkStyle}>Twitter</a> */}
+          {/* <a href="https://linkedin.com" target="_blank" rel="noopener" style={footerLinkStyle}>LinkedIn</a> */}
           <a href="mailto:pricingradar@gmail.com" style={footerLinkStyle}>pricingradar@gmail.com</a>
         </div>
         {/* Right — copyright */}
