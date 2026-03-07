@@ -481,7 +481,7 @@ export default function Home() {
               {
                 icon: '🤖',
                 title: 'AI-powered detection',
-                desc: "Analyzes page updates and detects changes to prices, plans, or features — so you only see what matters.",
+                desc: "Detects meaningful changes to prices, plans, or features — so you only see what matters.",
               },
               {
                 icon: '🎯',
