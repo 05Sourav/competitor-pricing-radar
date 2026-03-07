@@ -124,8 +124,7 @@ export default function Home() {
           {/* Subheadline */}
           <FadeInItem>
             <p style={{ fontSize: 18, color: '#555', lineHeight: 1.7, margin: '0 0 8px', maxWidth: 560, marginLeft: 'auto', marginRight: 'auto' }}>
-              AI-powered daily monitoring that tracks updates, discounts, and plan changes
-              so you don't have to. Early Beta — looking for founding users.
+              AI-powered daily monitoring that tracks price, plan, and feature changes so you don't have to. Early Beta — looking for founding users.
             </p>
             <p style={{ fontSize: 13, color: '#999', margin: '0 0 36px' }}>
               Designed for SaaS founders and product teams
@@ -482,7 +481,7 @@ export default function Home() {
               {
                 icon: '🤖',
                 title: 'AI-powered detection',
-                desc: "Automatically analyzes page updates and identifies whether prices, plans, or features changed — so you only see what actually matters.",
+                desc: "Analyzes page updates and detects changes to prices, plans, or features — so you only see what matters.",
               },
               {
                 icon: '🎯',
