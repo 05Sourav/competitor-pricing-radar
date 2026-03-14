@@ -1,4 +1,5 @@
 import type { Metadata } from 'next';
+import { Analytics } from '@vercel/analytics/react';
 import './globals.css';
 
 export const metadata: Metadata = {
@@ -18,7 +19,10 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         />
         <link rel="icon" href="/tablogo4.png" type="image/png" />
       </head>
-      <body style={{ margin: 0, background: '#fff', minHeight: '100vh' }}>{children}</body>
+      <body style={{ margin: 0, background: '#fff', minHeight: '100vh' }}>
+        {children}
+        <Analytics />
+      </body>
     </html>
   );
 }
