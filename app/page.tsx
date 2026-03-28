@@ -175,7 +175,7 @@ export default function Home() {
               {
                 icon: '👁️',
                 title: 'We Watch Daily',
-                desc: 'Our AI scans for any structural or value changes, including hidden discounts.',
+                desc: 'Our AI scans for any structural or value changes — prices, plans and features.',
               },
               {
                 icon: '📧',
@@ -346,7 +346,7 @@ export default function Home() {
                 <div style={{ padding: '14px 32px 18px', borderTop: '1px solid #f4f4f5', background: '#fafafa' }}>
                   <p style={{ margin: 0, fontSize: 12, color: '#a1a1aa' }}>You're receiving this because you signed up at pricingradar.xyz</p>
                   <p style={{ margin: '4px 0 0', fontSize: 12, color: '#a1a1aa' }}>To unsubscribe, reply with 'unsubscribe' in the subject line.</p>
-                  <p style={{ margin: '4px 0 0', fontSize: 12, color: '#a1a1aa' }}>pricingradar.xyz | contact: pricingradar@gmail.com</p>
+                  <p style={{ margin: '4px 0 0', fontSize: 12, color: '#a1a1aa' }}>pricingradar.xyz | contact: hello@pricingradar.xyz</p>
                 </div>
 
               </div>
@@ -539,7 +539,7 @@ export default function Home() {
         <div className="footer-links" style={{ display: 'flex', gap: 24, fontSize: 13, color: '#374151', alignItems: 'center', justifyContent: 'center' }}>
           {/* <a href="https://twitter.com" target="_blank" rel="noopener" style={footerLinkStyle}>Twitter</a> */}
           {/* <a href="https://linkedin.com" target="_blank" rel="noopener" style={footerLinkStyle}>LinkedIn</a> */}
-          <a href="mailto:pricingradar@gmail.com" style={footerLinkStyle}>pricingradar@gmail.com</a>
+          <a href="mailto:hello@pricingradar.xyz" style={footerLinkStyle}>hello@pricingradar.xyz</a>
         </div>
         {/* Right — copyright */}
         <div className="footer-copyright" style={{ fontSize: 13, color: '#4b5563', textAlign: 'right' }}>

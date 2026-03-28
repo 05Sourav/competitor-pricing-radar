@@ -127,7 +127,7 @@ export async function POST(req: NextRequest) {
         resend.emails.send({
           from: 'Competitor Pricing Radar <alerts@pricingradar.xyz>',
           to: email,
-          reply_to: 'pricingradar@gmail.com',
+          reply_to: 'hello@pricingradar.xyz',
           subject: `Monitoring confirmed - ${competitorName}`,
           html: `
 <!DOCTYPE html>
@@ -168,7 +168,7 @@ export async function POST(req: NextRequest) {
         <tr><td style="padding:20px 40px;border-top:1px solid #f4f4f5;">
           <p style="margin:0;font-size:12px;color:#a1a1aa;">You're receiving this because you signed up at pricingradar.xyz</p>
           <p style="margin:6px 0 0;font-size:12px;color:#a1a1aa;">To unsubscribe, reply with 'unsubscribe' in the subject line.</p>
-          <p style="margin:6px 0 0;font-size:12px;color:#a1a1aa;">pricingradar.xyz | contact: pricingradar@gmail.com</p>
+          <p style="margin:6px 0 0;font-size:12px;color:#a1a1aa;">pricingradar.xyz | contact: hello@pricingradar.xyz</p>
         </td></tr>
 
       </table>
@@ -189,7 +189,7 @@ View your dashboard: ${dashboardUrl}
 
 ---
 To unsubscribe, reply with 'unsubscribe' in the subject line.
-pricingradar.xyz | contact: pricingradar@gmail.com`,
+pricingradar.xyz | contact: hello@pricingradar.xyz`,
         }),
         new Promise<never>((_, reject) =>
           setTimeout(() => reject(new Error('Email send timeout after 6s')), 6000)

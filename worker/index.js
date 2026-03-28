@@ -190,7 +190,7 @@ async function processMonitor(monitor) {
     await resend.emails.send({
       from: "Competitor Pricing Radar <alerts@pricingradar.xyz>",
       to: monitor.user_email,
-      reply_to: "pricingradar@gmail.com",
+      reply_to: "hello@pricingradar.xyz",
       subject: `[PricingRadar] ${monitor.competitor_name} pricing changed`,
       html: buildEmailHtml(monitor, changeResult, detectedAt),
       text: buildEmailText(monitor, changeResult, detectedAt),
@@ -324,7 +324,7 @@ function buildEmailHtml(monitor, change, detectedAt) {
         <tr><td style="padding:20px 40px;border-top:1px solid #f4f4f5;">
           <p style="margin:0;font-size:12px;color:#a1a1aa;">You're receiving this because you signed up at pricingradar.xyz</p>
           <p style="margin:6px 0 0;font-size:12px;color:#a1a1aa;">To unsubscribe, reply with 'unsubscribe' in the subject line.</p>
-          <p style="margin:6px 0 0;font-size:12px;color:#a1a1aa;">pricingradar.xyz | contact: pricingradar@gmail.com</p>
+          <p style="margin:6px 0 0;font-size:12px;color:#a1a1aa;">pricingradar.xyz | contact: hello@pricingradar.xyz</p>
         </td></tr>
 
       </table>
@@ -365,7 +365,7 @@ function buildEmailText(monitor, change, detectedAt) {
     `You're receiving this because you signed up at pricingradar.xyz.`,
   );
   lines.push(`To unsubscribe, reply with 'unsubscribe' in the subject line.`);
-  lines.push(`pricingradar.xyz | contact: pricingradar@gmail.com`);
+  lines.push(`pricingradar.xyz | contact: hello@pricingradar.xyz`);
 
   return lines.join("\n");
 }
